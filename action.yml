@@ -1,0 +1,47 @@
+name: gha-py-venv
+description: |-
+  GitHub Action to setup Python virtual environment and install project dependencies
+
+author: albr21
+branding:
+  icon: settings
+  color: green
+
+inputs:
+  requirements:
+    description: Path to the requirements file
+    required: false
+    default: requirements.txt
+  requirements-dev:
+    description: Path to the dev requirements file
+    required: false
+    default: requirements-dev.txt
+  command-line-interpreter:
+    description: |-
+      Command line interpreter.
+      By default, it uses `bash`, but you can change it to `sh`.
+    required: false
+    default: bash
+
+runs:
+  using: composite
+  steps:
+    - name: Create virtual environment
+      run: |-
+        python3 -m venv venv
+        venv/bin/python -m pip install --upgrade pip
+      shell: ${{ inputs.command-line-interpreter }}
+
+    - name: Install dependencies
+      run: |-
+        if [ -s "${{ inputs.requirements }}" ]; then
+          venv/bin/python -m pip install -r "${{ inputs.requirements }}"
+        fi
+      shell: ${{ inputs.command-line-interpreter }}
+
+    - name: Install dev dependencies
+      run: |-
+        if [ -s "${{ inputs.requirements-dev }}" ]; then
+          venv/bin/python -m pip install -r "${{ inputs.requirements-dev }}"
+        fi
+      shell: ${{ inputs.command-line-interpreter }}
