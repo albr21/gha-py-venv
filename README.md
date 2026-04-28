@@ -1,10 +1,18 @@
-# <project-name>
+# gha-py-venv
 
-<!-- A brief description of the project. -->
+A GitHub Action to setup Python virtual environment and install project dependencies.
+Working only on Linux based environment.
 
 ## Usage
 
-<!-- Provide instructions on how to use the project, including code examples if applicable. -->
+```yaml
+steps:
+  - name: Setup Python virtual environment
+    uses: albr21/gha-py-venv@1.0.0
+    with:
+      requirements: requirements.txt
+      requirements-dev: requirements-dev.txt
+```
 
 ## Contributing
 
